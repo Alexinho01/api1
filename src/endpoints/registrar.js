@@ -35,3 +35,4 @@ export const registrar = new Elysia()
             "mensaje": "El usuario se ha registrado correctamente"
         };
     })
+    
