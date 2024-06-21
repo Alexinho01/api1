@@ -1,24 +1,56 @@
 import {Elysia} from "elysia";
 import {PrismaClient} from "@prisma/client"
 
+const prisma = new PrismaClient();
+
 export const bloquear = new Elysia()
-const usuario = {
-    id: 0,
-    nombre: '',
-};
+    .post("/api1-1/bloquear", async ({ body }) => {
+    //const { correo, pass, correo_bloquear } = body;
 
-const prisma = new PrismaClient({
-    log: ['info', 'warn', 'error'] 
-});
+    try {
+        const bloqueador = await prisma.usuario.findUnique({
+            where: {direccion_correo: body.correo}
+        })
 
-const app2 = new Elysia().decorate('db', prisma);
+        const bloqueado = await prisma.usuario.findUnique({
+            where: {
+                direccion_correo: body.correo_bloquear
+            }
+        })
 
-app2.get('/posts', async ({ db }) => {
-    return await db.post.findMany();
-});
+        if (bloqueador == null || bloqueado == null ){
+            return {
+                "estado": 400,
+                "mensaje": "El usuario no existe"
+            }
+        }
 
-app2.post('/posts', async ({ db, body }) => {
-    return await db.post.create({
-        data: body 
-    });
+        if (bloqueador.password != body.clave ){
+            return {
+                "estado": 400,
+                "mensaje": "clave no coincide"
+            }
+        }
+
+        if (bloqueador.password == body.clave){
+
+            const nuevoBloqueado = await prisma.bloqueado.create({
+                data: {
+                    id_usuario_bloqueado: bloqueado.id_usuario,
+                    id_usuario: bloqueador.id_usuario
+                }
+            })
+            return{
+                "estado": 200,
+                "mensaje": "Usuario  bloqueado exitosamente"
+            }
+        }
+
+    } catch (error) {
+        console.error("Error al bloquear usuario:", error);
+        return {
+            "estado": 400,
+            "mensaje": "Ocurrió un error al intentar bloquear al usuario"
+        };
+    }
 });
