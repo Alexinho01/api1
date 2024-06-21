@@ -4,7 +4,7 @@ import {PrismaClient} from "@prisma/client"
 const prisma = new PrismaClient();
 
 export const registrar = new Elysia()
-    .post("/api1/registrar", async({body}) => {
+    .post("/api1-1/registrar", async({body}) => {
         
         if(
             body.correo == undefined || body.nombre ==undefined || body.pass == undefined || body.descripcion == undefined
