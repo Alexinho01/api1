@@ -42,3 +42,4 @@ model Bloqueado{
   id_usuario Int
   usuario_bloqueado Usuario @relation("direccion_bloqueada", fields: [id_usuario_bloqueado], references: [id_usuario])
 }
+
