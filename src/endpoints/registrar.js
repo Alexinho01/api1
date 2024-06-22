@@ -14,7 +14,17 @@ export const registrar = new Elysia()
                 "mensaje": "Ha habido un error"
             }
         }
-
+        const usuario = await prisma.usuario.findUnique({
+            where:{
+                direccion_correo: body.correo
+            }
+        })
+        if (usuario){
+            return{
+                "estado": 400,
+                "mensaje": "El correo a crear ya existe, intente con otra"
+            }
+        }
         try{
             const nuevoUsuario = await prisma.usuario.create(
                 {
@@ -28,7 +38,10 @@ export const registrar = new Elysia()
             );
             console.log("Se ha registrado un nuevo usuario")
         }catch (error){
-            return error;
+            return{
+                "estado": 400,
+                "mensaje": "No se ha podido registrar el usuario"
+            }
         }
         return {
             "estado": 200,
