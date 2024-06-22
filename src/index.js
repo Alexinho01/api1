@@ -5,6 +5,7 @@ import { informacion } from "./endpoints/informacion";
 import { verificar } from "./endpoints/verificar";
 import { desmarcarCorreo } from "./endpoints/desmarcarCorreo";
 import { marcarCorreo } from "./endpoints/marcarCorreo";
+import { ver_fav } from "./endpoints/ver_fav";
 
 const app = new Elysia()
   .get("/", async () => {
@@ -16,6 +17,7 @@ const app = new Elysia()
   .use(verificar)
   .use(desmarcarCorreo)
   .use(marcarCorreo)
+  .use(ver_fav)
   .listen(3000);
 
 console.log(
