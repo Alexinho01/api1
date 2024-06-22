@@ -4,7 +4,8 @@ import { bloquear } from "./endpoints/bloquear";
 import { informacion } from "./endpoints/informacion";
 import { verificar } from "./endpoints/verificar";
 import { desmarcarCorreo } from "./endpoints/desmarcarCorreo";
-import { marcarCorreo } from "./endpoints/marcarcorreo";
+import { marcarCorreo } from "./endpoints/marcarCorreo";
+
 const app = new Elysia()
   .get("/", async () => {
     return "MAIN"
