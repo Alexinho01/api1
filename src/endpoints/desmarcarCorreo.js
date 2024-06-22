@@ -11,18 +11,31 @@ export const desmarcarCorreo = new Elysia()
                     direccion_correo: body.correo
                 }
             })
+
+            const usuario_bloquear = await prisma.usuario.findUnique({
+                where: {
+                    direccion_correo: body.correo_favorito
+                }
+            })
             if (usuario == null){
                 return {
                     "estado": 200,
                     "mensaje": "No existe el usuario"
                 }
             }
+            else if (usuario_bloquear == null){
+                return{
+                    "estado":200,
+                    "mensaje": "No existe el usuario favorito"
+                }
+            }
+
 
             if (usuario.password == body.clave){
                 
-                const favoritoDesmarcar = await prisma.favorito.findUnique({
+                const favoritoDesmarcar = await prisma.usuario.findUnique({
                     where:{
-                        id_usuario_favorito: body.id_correo_favorito
+                        direccion_correo: body.correo_favorito
                     }
                 })
 
@@ -33,7 +46,11 @@ export const desmarcarCorreo = new Elysia()
                             id_usuario_favorito: favoritoDesmarcar.id_usuario_favorito
                         }
                     })
-                    console.log(body.correo + "ha eliminado la id favorita" + favoritoDesmarcar.id_favorito)
+                    console.log(body.correo + "ha desmarcado el correo " + favoritoDesmarcar.id_favorito + "como favorito")
+                    return{
+                        "estado": 200,
+                        "mensaje": "Se ha eliminado el correo marcado como favorito"
+                    }
                 }
                 else{
                     return{
