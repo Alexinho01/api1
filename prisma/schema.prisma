@@ -30,9 +30,10 @@ model Correo {
 }
 
 model Favorito{
-  id_favorito Int @id @default(autoincrement())
-  id_usuario_favorito Int
-  id_usuario Int
+  id_favorito Int @id @default(autoincrement()) //id en la tabla favorito
+  id_usuario_favorito Int @unique //id del usuario que se añadira como favorito
+  id_usuario Int //id del usuario que añadira un favorito
+
   usuario_favorito Usuario @relation("direccion_favorita", fields: [id_usuario_favorito], references: [id_usuario])
 }
 
