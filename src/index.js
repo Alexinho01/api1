@@ -3,6 +3,10 @@ import { registrar } from "./endpoints/registrar";
 import { bloquear } from "./endpoints/bloquear";
 import { informacion } from "./endpoints/informacion";
 import { verificar } from "./endpoints/verificar";
+import { marcarCorreo } from "./endpoints/marcarcorreo";
+
+
+
 
 const app = new Elysia()
   .get("/", async () => {
@@ -12,6 +16,7 @@ const app = new Elysia()
   .use(bloquear)
   .use(informacion)
   .use(verificar)
+  .use(marcarCorreo)
   .listen(3000);
 
 console.log(
