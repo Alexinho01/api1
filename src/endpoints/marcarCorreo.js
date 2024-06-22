@@ -21,33 +21,32 @@ export const marcarCorreo = new Elysia()
 
             if (usuario_marcado == null || usuario_marcador == null){
                 return {
-                    "estado": 400,
+                    "estado": 404,
                     "mensaje": "Tu usuario o el usuario a marcar no existe"
                 }
             }
 
-
             if (usuario_marcador.password == body.clave){
                 
-                const nuevoFavorito = await prisma.contacto.create({
+                const nuevoFavorito = await prisma.favorito.create({
                     data: {
                         id_usuario: usuario_marcador.id_usuario,
                         id_usuario_favorito: usuario_marcado.id_usuario
                     } 
                 })
 
-                console.log(usuario_marcador.direccion_correo + " ha agregado a " + usuario_agregado.direccion_correo + "como favorito.")
+                console.log(usuario_marcador.direccion_correo + " ha agregado a " + usuario_marcado.direccion_correo + " como favorito.")
 
                 return {
                     "estado": 200,
-                    "mensaje": "El usuario ha sido agregado a favoritos con exito."
+                    "mensaje": "El usuario ha sido agregado a favoritos con éxito."
                 }
             }
 
             else{
                 return {
-                    "estado": 400,
-                    "mensaje": "Las credenciales no coinciden"
+                    "estado": 401,
+                    "mensaje": "Las credenciales no coinciden."
                 }
             }
 
@@ -55,9 +54,8 @@ export const marcarCorreo = new Elysia()
             console.log(error)
             return {
                 "estado": 400,
-                "mensaje": "No se ha podido marcar al contacto"
+                "mensaje": "No se ha podido marcar al contacto."
             }
         }
-
     })
 

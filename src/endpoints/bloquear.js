@@ -20,14 +20,14 @@ export const bloquear = new Elysia()
 
         if (bloqueador == null || bloqueado == null ){
             return {
-                "estado": 400,
+                "estado": 404,
                 "mensaje": "El usuario no existe"
             }
         }
 
         if (bloqueador.password != body.clave ){
             return {
-                "estado": 400,
+                "estado": 401,
                 "mensaje": "clave no coincide"
             }
         }
